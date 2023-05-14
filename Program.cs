@@ -1,11 +1,16 @@
+using _2ND_SECURITY_WEB_APP.Context;
+using _2ND_SECURITY_WEB_APP.Repository;
 using _2ND_SECURITY_WEB_APP.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped<FileUploaderServices>();
 builder.Services.AddScoped<EncryptionService>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSession(options =>
 {
@@ -25,6 +30,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
