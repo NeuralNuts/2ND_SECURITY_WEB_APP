@@ -50,5 +50,39 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
             }
         }
         #endregion
+
+        #region Update product
+        [HttpPut]
+        [Route("PutProduct")]
+        public async Task<IActionResult> PutProduct(ProductModel productModel)
+        {
+            try
+            {
+                await _productRepository.UpdateProduct(productModel);
+                return Ok("Product updated");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Update product
+        [HttpDelete]
+        [Route("DeleteProduct")]
+        public async Task<IActionResult> DeleteProduct(ProductModel productId)
+        {
+            try
+            {
+                await _productRepository.DeleteProduct(productId);
+                return Ok("Product deleted");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+        #endregion
     }
 }

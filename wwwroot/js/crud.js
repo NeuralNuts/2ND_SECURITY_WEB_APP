@@ -13,6 +13,32 @@ $("#add-product").click(function (event) {
     location.reload()
 })
 
+$("#update-product").click(function (event) {
+
+    $.ajax({
+        type: "PUT",
+        url: "https://localhost:7080/api/Product/PutProduct?" + `product_id=${$("#product-id-input").val()}&security_plan=${$("#security-plan-input2").val()}&subscription=${$("#subscription-plan-input2").val()}&price=${$("#price-input2").val()}`,
+        dataType: "JSON",
+        success: function (response) {
+            console.log(response)
+        }
+    })
+    location.reload()
+})
+
+$("#delete-product").click(function (event) {
+
+    $.ajax({
+        type: "DELETE",
+        url: "https://localhost:7080/api/Product/DeleteProduct?" + `product_id=${$("#product-id-input").val()}`,
+        dataType: "JSON",
+        success: function (response) {
+            console.log(response)
+        }
+    })
+    location.reload()
+})
+
 $.ajax({
     type: "GET",
     url: 'https://localhost:7080/api/Product/GetProducts',
@@ -62,8 +88,8 @@ function buildProductTabel(data) {
 
             $("#product-id-input").val(rowSelected.cells[0].innerHTML)
             $("#security-plan-input2").val(rowSelected.cells[1].innerHTML)
-            $("#subscription-plan-input").val(rowSelected.cells[2].innerHTML)
-            $("#price-input").val(rowSelected.cells[3].innerHTML)
+            $("#subscription-plan-input2").val(rowSelected.cells[2].innerHTML)
+            $("#price-input2").val(rowSelected.cells[3].innerHTML)
 
             console.log(rowSelected.cells[3].innerHTML)
         }

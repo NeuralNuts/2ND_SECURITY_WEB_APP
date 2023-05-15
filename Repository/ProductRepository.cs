@@ -38,5 +38,34 @@ namespace _2ND_SECURITY_WEB_APP.Repository
             }
         }
         #endregion
+
+        #region Updates product details
+        public async Task UpdateProduct(ProductModel productModel)
+        {
+            var query = "UPDATE [Products] " +
+                        "SET security_plan = @security_plan, " +
+                        "subscription = @subscription, " +
+                        "price = @price " +
+                        "WHERE product_id = @product_id ";
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, productModel);
+            }
+        }
+        #endregion
+
+        #region Delete product
+        public async Task DeleteProduct(ProductModel product_id)
+        {
+            var query = "DELETE [Products] " +
+                        "WHERE product_id = @product_id ";
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, product_id);
+            }
+        }
+        #endregion`
     }
 }
