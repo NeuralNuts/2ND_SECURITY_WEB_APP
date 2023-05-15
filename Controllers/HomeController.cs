@@ -54,6 +54,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult CRUD() 
         {
             return View();

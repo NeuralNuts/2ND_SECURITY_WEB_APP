@@ -20,3 +20,16 @@ $("#login-btn").click(function (event) {
     })
 })
 
+var role = "guest";
+
+$("#sign-up-btn").click(function (event) {
+    $.ajax({
+        type: "POST",
+        url: 'https://localhost:7080/api/User/PostUser?' + `email=${$("#email-input").val()}&password=${$("#password-input").val()}&role=${role}`,
+        dataType: "JSON",
+        success: function (response) {
+            console.log(response)
+        }
+    })
+})
+

@@ -2,7 +2,9 @@
 using _2ND_SECURITY_WEB_APP.Models;
 using _2ND_SECURITY_WEB_APP.Models.DataObject;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using System.Buffers.Text;
+using System.Linq;
 using System.Text;
 
 namespace _2ND_SECURITY_WEB_APP.Repository
@@ -46,6 +48,29 @@ namespace _2ND_SECURITY_WEB_APP.Repository
             }
         }
         #endregion
+
+        public bool CheckUserRole(string email)
+        {
+            string fieldToRetrieve2 = "role";
+            string fieldToCompare = "email";
+
+            var query = $"SELECT {fieldToRetrieve2} " +
+                        "FROM [User] " +
+                        $"WHERE {fieldToCompare} = @email";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var users = connection.QueryAsync<UserRoleDTO>(query, new { email });
+                if (query == "guest")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
         #region Creates new user account
         public async Task PostUser(UserModel userModel)

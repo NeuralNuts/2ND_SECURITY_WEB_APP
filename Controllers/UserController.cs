@@ -110,6 +110,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         {
             string message;
             var login_status = _userRepository.GetUsers().Result.Where(m => m.email == user_model.email && m.password == user_model.password).FirstOrDefault();
+            var user_role = _userRepository.CheckUserRole(user_model.email);
             var email_valadtion = EmailValidation(user_model.email);
             var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword);
 
@@ -121,26 +122,54 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
                     //HttpContext.Session.GetString(id);
                     message = "LOGIN VALID";
 
-                    var claims = new List<Claim>
+                    if (user_role == true)
                     {
-                        new Claim(ClaimTypes.Email, user_model.email),
-                        new Claim(ClaimTypes.Role, user_model.role = "guest")
-                    };
-                    //Create an identity object for the user and hand it the claims list.
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Email, user_model.email),
+                            new Claim(ClaimTypes.Role, user_model.role = "guest")
+                        };
 
-                    var authProperties = new AuthenticationProperties
+                        //Create an identity object for the user and hand it the claims list.
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                        var authProperties = new AuthenticationProperties
+                        {
+                            //Allows the sliding expiry to be used for this login
+                            AllowRefresh = true,
+                            //Lets the cookie persist over multiple requests and sessions.
+                            //DO NOT SET FOR SUPER SECURE SITES (BANKING ETC.)
+                            IsPersistent = true,
+                            //Takes the return url of the page it was directing to before login was required
+
+                        };
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    }
+                    else
                     {
-                        //Allows the sliding expiry to be used for this login
-                        AllowRefresh = true,
-                        //Lets the cookie persist over multiple requests and sessions.
-                        //DO NOT SET FOR SUPER SECURE SITES (BANKING ETC.)
-                        IsPersistent = true,
-                        //Takes the return url of the page it was directing to before login was required
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Email, user_model.email),
+                            new Claim(ClaimTypes.Role, user_model.role = "admin")
+                        };
 
-                    };
+                        //Create an identity object for the user and hand it the claims list.
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                        var authProperties = new AuthenticationProperties
+                        {
+                            //Allows the sliding expiry to be used for this login
+                            AllowRefresh = true,
+                            //Lets the cookie persist over multiple requests and sessions.
+                            //DO NOT SET FOR SUPER SECURE SITES (BANKING ETC.)
+                            IsPersistent = true,
+                            //Takes the return url of the page it was directing to before login was required
+
+                        };
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    }
                 }
 
                 else
@@ -165,6 +194,20 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         {
             var hash = await _userRepository.CheckUserHash(email);
             return Ok(hash);
+            //user_model.hashPassword = hash_password.ToString();
+
+            //var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword);
+        }
+        #endregion
+
+        #region Authenticates user login
+        [HttpGet]
+        [Route("GetUsersRole")]
+
+        public async Task<IActionResult> GetUsersRole(string email)
+        {
+            var role = _userRepository.CheckUserRole(email);
+            return Ok(role);
             //user_model.hashPassword = hash_password.ToString();
 
             //var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword);
