@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace _2ND_SECURITY_WEB_APP.Controllers
 {
@@ -102,7 +106,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         [HttpGet]
         [Route("AuthenticateLogin")]
 
-        public async Task<IActionResult> AuthenticateLogin(UserModel? user_model, string email)
+        public async Task<IActionResult> AuthenticateLogin(UserModel? user_model)
         {
             string message;
             var login_status = _userRepository.GetUsers().Result.Where(m => m.email == user_model.email && m.password == user_model.password).FirstOrDefault();
@@ -116,6 +120,27 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
                     //string id = HttpContext.Session.Id;
                     //HttpContext.Session.GetString(id);
                     message = "LOGIN VALID";
+
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Email, user_model.email),
+                        new Claim(ClaimTypes.Role, user_model.role = "guest")
+                    };
+                    //Create an identity object for the user and hand it the claims list.
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                        //Allows the sliding expiry to be used for this login
+                        AllowRefresh = true,
+                        //Lets the cookie persist over multiple requests and sessions.
+                        //DO NOT SET FOR SUPER SECURE SITES (BANKING ETC.)
+                        IsPersistent = true,
+                        //Takes the return url of the page it was directing to before login was required
+
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
                 }
 
                 else

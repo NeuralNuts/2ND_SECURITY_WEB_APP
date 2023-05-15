@@ -1,5 +1,6 @@
 ﻿using _2ND_SECURITY_WEB_APP.Models;
 using _2ND_SECURITY_WEB_APP.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -47,6 +48,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
             return View();
         }
 
+        [Authorize(Roles = "guest")]
         public IActionResult Encryption()
         {
             return View();

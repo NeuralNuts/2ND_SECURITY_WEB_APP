@@ -1,6 +1,8 @@
 ﻿using _2ND_SECURITY_WEB_APP.Models;
 using _2ND_SECURITY_WEB_APP.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace _2ND_SECURITY_WEB_APP.Controllers
 {
@@ -36,6 +38,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
 
         #region Create new product
         [HttpPost]
+        [Authorize(Roles = "guest")]
         [Route("PostProduct")]
         public async Task<IActionResult> PostProduct(ProductModel productModel)
         {
