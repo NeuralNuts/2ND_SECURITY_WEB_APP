@@ -102,23 +102,25 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         [HttpGet]
         [Route("AuthenticateLogin")]
 
-        public async Task<IActionResult> AuthenticateLogin(UserModel? user_model)
+        public async Task<IActionResult> AuthenticateLogin(UserModel? user_model, string email)
         {
             string message;
             var login_status = _userRepository.GetUsers().Result.Where(m => m.email == user_model.email && m.password == user_model.password).FirstOrDefault();
-            var hash_password = _userRepository.GetUsers().Result.Where(u => u.hashPassword);
+            //var hash_password = _userRepository.CheckUserHash(email).Result.FirstOrDefault();
             var email_valadtion = EmailValidation(user_model.email);
 
-            var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword); 
+            //user_model.hashPassword = hash_password.ToString();
+
+            var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword);
 
             try
             {
-                if (login_status != null)
-                {
-                    //string id = HttpContext.Session.Id;
-                    //HttpContext.Session.GetString(id);
-                    message = "LOGIN VALID";
-                }
+                //if (login_status != null)
+                //{
+                //    //string id = HttpContext.Session.Id;
+                //    //HttpContext.Session.GetString(id);
+                //    message = "LOGIN VALID";
+                //}
 
                 if (hash_auth == true)
                 {
@@ -130,12 +132,26 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
                     message = "LOGIN INVALID";
                 }
 
-                return Json(message);
+                return Ok(message);
             }
             catch (Exception ex)
             {
                 return Problem(ex.Message);
             }
+        }
+        #endregion
+
+        #region Authenticates user login
+        [HttpGet]
+        [Route("GetUsersHash")]
+
+        public async Task<IActionResult> GetUsersHash(string email)
+        {
+            var hash = await _userRepository.CheckUserHash(email);
+            return Ok(hash);
+            //user_model.hashPassword = hash_password.ToString();
+
+            //var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword);
         }
         #endregion
     }

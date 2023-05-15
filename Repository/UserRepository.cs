@@ -1,6 +1,8 @@
 ﻿using _2ND_SECURITY_WEB_APP.Context;
 using _2ND_SECURITY_WEB_APP.Models;
+using _2ND_SECURITY_WEB_APP.Models.DataObject;
 using Dapper;
+using System.Buffers.Text;
 using System.Text;
 
 namespace _2ND_SECURITY_WEB_APP.Repository
@@ -28,14 +30,18 @@ namespace _2ND_SECURITY_WEB_APP.Repository
         #endregion
 
         #region Gets user_id and updates details
-        public async Task<IEnumerable<UserModel>> CheckUsersId()
+        public async Task<IEnumerable<UserDTO>> CheckUserHash(string email)
         {
-            var query = "SELECT user_id FROM [User]";
+            string fieldToRetrieve = "hashPassword";
+            string fieldToCompare = "email";
+
+            var query = $"SELECT {fieldToRetrieve} " +
+                        "FROM [User] " +
+                        $"WHERE {fieldToCompare} = @email";
 
             using (var connection = _context.CreateConnection())
             {
-                var users = await connection.QueryAsync<UserModel>(query);
-
+                var users = await connection.QueryAsync<UserDTO>(query, new { email });
                 return users.ToList();
             }
         }
