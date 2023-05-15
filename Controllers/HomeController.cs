@@ -48,13 +48,21 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
             return View();
         }
 
+        public IActionResult Logout() 
+        {
+            Response.Cookies.Delete("Cookie");
+            Response.Cookies.Delete("Cookie");
+
+            return View();
+        }
+
         [Authorize(Roles = "guest")]
         public IActionResult Encryption()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult CRUD() 
         {
             return View();

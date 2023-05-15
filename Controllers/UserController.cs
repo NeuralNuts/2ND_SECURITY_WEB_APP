@@ -124,6 +124,10 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
 
                     if (user_role == true)
                     {
+                        Response.Cookies.Delete("Cookie");
+                        Response.Cookies.Delete("Cookie");
+
+
                         var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Email, user_model.email),
@@ -139,15 +143,18 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
                             AllowRefresh = true,
                             //Lets the cookie persist over multiple requests and sessions.
                             //DO NOT SET FOR SUPER SECURE SITES (BANKING ETC.)
-                            IsPersistent = true,
+                            //IsPersistent = true,
                             //Takes the return url of the page it was directing to before login was required
 
                         };
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
                     }
-                    else
+                    else if(user_role == false)
                     {
+                        Response.Cookies.Delete("Cookie");
+                        Response.Cookies.Delete("Cookie");
+
                         var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Email, user_model.email),
@@ -169,6 +176,10 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
                         };
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    }
+                    else
+                    {
+                        return Problem();
                     }
                 }
 

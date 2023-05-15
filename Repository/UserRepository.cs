@@ -54,6 +54,9 @@ namespace _2ND_SECURITY_WEB_APP.Repository
             string fieldToRetrieve2 = "role";
             string fieldToCompare = "email";
 
+            var user_model = new UserModel();
+            var role_status = GetUsers().Result.Where(m => m.email == email && m.role == "guest").FirstOrDefault();
+
             var query = $"SELECT {fieldToRetrieve2} " +
                         "FROM [User] " +
                         $"WHERE {fieldToCompare} = @email";
@@ -61,7 +64,7 @@ namespace _2ND_SECURITY_WEB_APP.Repository
             using (var connection = _context.CreateConnection())
             {
                 var users = connection.QueryAsync<UserRoleDTO>(query, new { email });
-                if (query == "guest")
+                if (role_status != null)
                 {
                     return true;
                 }

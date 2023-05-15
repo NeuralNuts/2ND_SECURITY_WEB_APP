@@ -38,7 +38,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
 
         #region Create new product
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [Route("PostProduct")]
         public async Task<IActionResult> PostProduct(ProductModel productModel)
         {
@@ -56,7 +56,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
 
         #region Update product
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [Route("PutProduct")]
         public async Task<IActionResult> PutProduct(ProductModel productModel)
         {
@@ -74,7 +74,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
 
         #region Update product
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [Route("DeleteProduct")]
         public async Task<IActionResult> DeleteProduct(ProductModel productId)
         {

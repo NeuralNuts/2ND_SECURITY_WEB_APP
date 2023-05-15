@@ -26,25 +26,11 @@ builder.Services.AddSession(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("Au",
-//          authBuilder =>
-//          {
-//              authBuilder.RequireRole("guest");
-//          });
-//});
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
-    //Sets the defualt locatoin to redirect the user when login is required
     options.LoginPath = "/Home/Login";
-    //Sets the path to direct the user if they try to access a resource that
-    //their role does not have access to.
     options.AccessDeniedPath = "/Home/Error";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-    //Refreshes the timeapsn back to max wheneven the cookie is used when under
-    //half its lifetime.
     options.SlidingExpiration = true;
 });
 
