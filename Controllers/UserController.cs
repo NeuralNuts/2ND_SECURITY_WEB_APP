@@ -70,6 +70,9 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
             var email_valadtion = EmailValidation(user_model.email);
             var hash_password = HashPassword(user_model.password);
 
+            Response.Cookies.Delete("Cookie");
+            Response.Cookies.Delete("Cookie");
+
             //byte[] data = Encoding.ASCII.GetBytes(user_model.password);
             //data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
             //String hash = Encoding.ASCII.GetString(data);
@@ -89,6 +92,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
                 else
                 {
                     message = "Account created";
+
                     user_model.hashPassword = hash_password.ToString();
                     user_model.GUID = Guid.NewGuid().ToString();
                     await _userRepository.PostUser(user_model);
@@ -126,7 +130,6 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
                     {
                         Response.Cookies.Delete("Cookie");
                         Response.Cookies.Delete("Cookie");
-
 
                         var claims = new List<Claim>
                         {
