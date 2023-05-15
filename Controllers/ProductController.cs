@@ -17,7 +17,7 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         }
         #endregion
 
-        #region Gets all of the products
+        #region Gets all of the users
         [HttpGet]
         [Route("GetProducts")]
         public async Task<IActionResult> GetProducts()

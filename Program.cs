@@ -10,6 +10,7 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped<FileUploaderServices>();
 builder.Services.AddScoped<EncryptionService>();
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSession(options =>
