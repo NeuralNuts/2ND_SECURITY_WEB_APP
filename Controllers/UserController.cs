@@ -106,25 +106,16 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         {
             string message;
             var login_status = _userRepository.GetUsers().Result.Where(m => m.email == user_model.email && m.password == user_model.password).FirstOrDefault();
-            //var hash_password = _userRepository.CheckUserHash(email).Result.FirstOrDefault();
             var email_valadtion = EmailValidation(user_model.email);
-
-            //user_model.hashPassword = hash_password.ToString();
-
             var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword);
 
             try
             {
-                //if (login_status != null)
-                //{
-                //    //string id = HttpContext.Session.Id;
-                //    //HttpContext.Session.GetString(id);
-                //    message = "LOGIN VALID";
-                //}
-
-                if (hash_auth == true)
+                if (login_status != null && hash_auth == true)
                 {
-                    message = "Hash Bad";
+                    //string id = HttpContext.Session.Id;
+                    //HttpContext.Session.GetString(id);
+                    message = "LOGIN VALID";
                 }
 
                 else
