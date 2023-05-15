@@ -10,7 +10,6 @@ $("#add-product").click(function (event) {
             console.log(response)
         }
     })
-
     location.reload()
 })
 
