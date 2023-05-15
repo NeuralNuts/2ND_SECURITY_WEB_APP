@@ -25,5 +25,18 @@ namespace _2ND_SECURITY_WEB_APP.Repository
             }
         }
         #endregion
+
+        #region Creates a product
+        public async Task CreateProduct(ProductModel productModel)
+        {
+            var query = "INSERT INTO [Products] (security_plan, subscription, price) " +
+                        "VALUES (@security_plan, @subscription, @price) ";
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query.Trim(), productModel);
+            }
+        }
+        #endregion
     }
 }

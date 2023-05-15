@@ -1,4 +1,5 @@
-﻿using _2ND_SECURITY_WEB_APP.Repository;
+﻿using _2ND_SECURITY_WEB_APP.Models;
+using _2ND_SECURITY_WEB_APP.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _2ND_SECURITY_WEB_APP.Controllers
@@ -25,6 +26,23 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
             {
                 var products = await _productRepository.GetProducts();
                 return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Create new product
+        [HttpPost]
+        [Route("PostProduct")]
+        public async Task<IActionResult> PostProduct(ProductModel productModel)
+        {
+            try
+            {
+                await _productRepository.CreateProduct(productModel);
+                return Ok("Product created");
             }
             catch (Exception ex)
             {
