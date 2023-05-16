@@ -60,6 +60,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; " +
+                                 "img-src 'self' https://picsum.photos/ https://fastly.picsum.photos/ ; " +
+                                 "script-src 'self' https://cdnjs.cloudflare.com/ ");
+    context.Response.Headers.Add("Referrer-Policy", "no-referrer");
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+    context.Response.Headers.Add("Strict-Transport-Security", "max-age=63072000; includeSubDomains");
+    await next(context);
+});
+
 app.UseCookiePolicy(cookiePolicyOptions);
 
 app.MapControllerRoute(
