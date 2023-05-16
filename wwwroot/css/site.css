@@ -14,7 +14,16 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #55FFFF;
+}
+
+.btn-primary {
+    background-color: #FFD700;
+}
+
+header {
+    background-color: #FFD700;
 }
 
 video {
