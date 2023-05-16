@@ -40,7 +40,6 @@ $("#sign-up-btn").click(function (event) {
 
             if (response === emailError) {
                 showEmailInvalidToast();
-                console.log("bad")
             }
         }
     })
