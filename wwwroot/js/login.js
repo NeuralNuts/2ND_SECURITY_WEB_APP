@@ -1,3 +1,10 @@
+function showEmailInvalidToast() {
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+
+    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+}
+
 $("#login-btn").click(function (event) {
     $.ajax({
         type: "GET",
@@ -21,14 +28,20 @@ $("#login-btn").click(function (event) {
 })
 
 var role = "guest";
+var emailError = "Enter an email";
 
 $("#sign-up-btn").click(function (event) {
     $.ajax({
         type: "POST",
         url: 'https://localhost:7080/api/User/PostUser?' + `email=${$("#email-input").val()}&password=${$("#password-input").val()}&role=${role}`,
         dataType: "JSON",
+        data: Request,
         success: function (response) {
-            console.log(response)
+
+            if (response === emailError) {
+                showEmailInvalidToast();
+                console.log("bad")
+            }
         }
     })
 })
