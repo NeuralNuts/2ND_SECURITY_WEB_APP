@@ -29,7 +29,7 @@ video {
     z-index: -1;
 }
 
-#snackbar {
+#snackbar-email {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
@@ -44,7 +44,107 @@ video {
     bottom: 30px;
 }
 
-    #snackbar.show {
+    #snackbar-email.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    #snackbar-email.hide {
+        visibility: hidden;
+    }
+
+#snackbar-email-taken {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #ff0000;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+}
+
+    #snackbar-email-taken.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    #snackbar-email-taken.hide {
+        visibility: hidden;
+    }
+
+#snackbar-created {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #00ff21;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+}
+
+    #snackbar-created.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    #snackbar-created.hide {
+        visibility: hidden;
+    }
+
+#snackbar-null {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #ff0000;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+}
+
+    #snackbar-null.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    #snackbar-null.hide {
+        visibility: hidden;
+    }
+
+#snackbar-logged-in {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #00ff21;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+}
+
+    #snackbar-logged-in.show {
         visibility: visible;
         -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
         animation: fadein 0.5s, fadeout 0.5s 2.5s;
