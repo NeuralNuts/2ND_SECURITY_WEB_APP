@@ -78,8 +78,8 @@ namespace _2ND_SECURITY_WEB_APP.Repository
         #region Creates new user account
         public async Task PostUser(UserModel userModel)
         {
-            var query = "INSERT INTO [User] (email, password, hashPassword, role, GUID) " +
-                        "VALUES (@email, @password, @hashPassword, @role, @GUID) ";
+            var query = "INSERT INTO [User] (email, hashPassword, role, GUID) " +
+                        "VALUES (@email, @hashPassword, @role, @GUID) ";
 
             using (var connection = _context.CreateConnection())
             {

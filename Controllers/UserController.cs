@@ -63,12 +63,12 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         #region Checks if the inputed detials match an entry in the [User] table if so the creates a new user
         [HttpPost]
         [Route("PostUser")]
-        public async Task<IActionResult> CheckUser(UserModel? user_model)
+        public async Task<IActionResult> CheckUser(UserModel? user_model, string password)
         {
             string message;
             var check_status = _userRepository.GetUsers().Result.Where(m => m.email == user_model.email).FirstOrDefault();
             var email_valadtion = EmailValidation(user_model.email);
-            var hash_password = HashPassword(user_model.password);
+            var hash_password = HashPassword(password);
 
             Response.Cookies.Delete("Cookie");
             Response.Cookies.Delete("Cookie");
@@ -110,13 +110,13 @@ namespace _2ND_SECURITY_WEB_APP.Controllers
         [HttpGet]
         [Route("AuthenticateLogin")]
 
-        public async Task<IActionResult> AuthenticateLogin(UserModel? user_model)
+        public async Task<IActionResult> AuthenticateLogin(UserModel? user_model, string password)
         {
             string message;
-            var login_status = _userRepository.GetUsers().Result.Where(m => m.email == user_model.email && m.password == user_model.password).FirstOrDefault();
+            var login_status = _userRepository.GetUsers().Result.Where(m => m.email == user_model.email && password == password).FirstOrDefault();
             var user_role = _userRepository.CheckUserRole(user_model.email);
             var email_valadtion = EmailValidation(user_model.email);
-            var hash_auth = VerifyPassword(user_model.password, user_model.hashPassword);
+            var hash_auth = VerifyPassword(password, user_model.hashPassword);
 
             try
             {
